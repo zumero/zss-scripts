@@ -86,4 +86,13 @@ The example filters on a [name] column matching ZUMERO_USER_NAME.
 
 The optional `-Excludes` parameter takes a quoted, comma-separated list of column names to exclude. A column name followed by `=something` will get "something" as a default value for the excluded column; otherwise no default will be set. 
 
+
+migrate-dbfile.ps1 DBFile SourcePrimaryServer SourcePrimaryDBName DestPrimaryServer DestPrimaryDBName [...]
+---------------------------------------------------------
+
+Migrate a DBFile's configuration from one ZSS Server database to another.
+
+
+
+
 [zumero]: http://zumero.com/
