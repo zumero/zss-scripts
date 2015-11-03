@@ -187,13 +187,13 @@
   [Reflection.Assembly]::LoadFrom($ZssManagerPath + "\ZssManagerLib.dll") | Out-Null
 
   $ConnString = getConnString "source primary" $SourcePrimaryServer $SourcePrimaryDBName $SourcePrimaryUsername $SourcePrimaryPassword
-  $srcpdb = [Zumero.ZumerifyLib.DB.ZPrimaryDatabase]::Create(0, $ConnString)
+  $srcpdb = [Zumero.ZumerifyLib.DB.ZPrimaryDatabase]::Create(0, $ConnString, $ZssManagerPath + "\DB\SqlServer")
 
   $ConnString = getConnString "source secondary" $SourceSecondaryServer $SourceSecondaryDBName $SourceSecondaryUsername $SourceSecondaryPassword
   $srcdb =  [Zumero.ZumerifyLib.DB.ZDatabase]::Create(0, $srcpdb, $ConnString, $ZssManagerPath + "\DB\SqlServer")
 
   $ConnString = getConnString "destinaton primary" $DestPrimaryServer $DestPrimaryDBName $DestPrimaryUsername $DestPrimaryPassword
-  $dstpdb = [Zumero.ZumerifyLib.DB.ZPrimaryDatabase]::Create(0, $ConnString)
+  $dstpdb = [Zumero.ZumerifyLib.DB.ZPrimaryDatabase]::Create(0, $ConnString, $ZssManagerPath + "\DB\SqlServer")
 
   $ConnString = getConnString "destinaton secondary" $DestSecondaryServer $DestSecondaryDBName $DestSecondaryUsername $DestSecondaryPassword
   $dstdb =  [Zumero.ZumerifyLib.DB.ZDatabase]::Create(0, $dstpdb, $ConnString, $ZssManagerPath + "\DB\SqlServer")

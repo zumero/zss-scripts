@@ -4,7 +4,7 @@ Prepare a table for synching with ZSS.
 
 ## SYNTAX
 ```powershell
-.\prepare-table.ps1 [-DBFile] <String> [-TableName] <String> -PrimaryDBName <String> -PrimaryServer <String> [-PrimaryUsername <String>] [-PrimaryPassword <String>] [-SecondaryDBName <String>] [-SecondaryServer <String>] [-SecondaryUsername <String>] [-SecondaryPassword <String>] [<CommonParameters>]
+.\prepare-table.ps1 [-DBFile] <String> [-TableName] <String> -PrimaryDBName <String> -PrimaryServer <String> [-PrimaryUsername <String>] [-PrimaryPassword <String>] [-SecondaryDBName <String>] [-SecondaryServer <String>] [-SecondaryUsername <String>] [-SecondaryPassword <String>] [-NoAuth <Boolean>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -119,6 +119,18 @@ Defaults to the value of PrimaryPassword
 Required?                    false
 Position?                    named
 Default value                $PrimaryPassword
+Accept pipeline input?       false
+Accept wildcard characters?  false
+```
+ 
+### -NoAuth &lt;Boolean&gt;
+Skip the automatic addition of full permission to all authenticated users.
+
+Defaults to False (add permissions by default)
+```
+Required?                    false
+Position?                    named
+Default value                False
 Accept pipeline input?       false
 Accept wildcard characters?  false
 ```

@@ -79,7 +79,7 @@ Defaults to the value of PrimaryDBName
 ```
 Required?                    false
 Position?                    named
-Default value
+Default value                $PrimaryDBName
 Accept pipeline input?       false
 Accept wildcard characters?  false
 ```
@@ -91,7 +91,7 @@ Defaults to the value of PrimaryServer
 ```
 Required?                    false
 Position?                    named
-Default value
+Default value                $PrimaryServer
 Accept pipeline input?       false
 Accept wildcard characters?  false
 ```

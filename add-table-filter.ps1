@@ -135,19 +135,39 @@ $ZssManagerPath = [System.IO.Path]::GetFullPath("C:\Program Files (x86)\Zumero\Z
 [Reflection.Assembly]::LoadFrom($ZssManagerPath + "\ZssManagerLib.dll") | Out-Null
 
 $ConnString = getConnString "primary" $PrimaryServer $PrimaryDBName $PrimaryUsername $PrimaryPassword
-$pdb = [Zumero.ZumerifyLib.DB.ZPrimaryDatabase]::Create(0, $ConnString)
+$pdb = [Zumero.ZumerifyLib.DB.ZPrimaryDatabase]::Create(0, $ConnString, $ZssManagerPath + "\DB\SqlServer")
 
-$ConnString = getConnString "primary" $SecndaryServer $SecndaryDBName $SecndaryUsername $SecndaryPassword
+$ConnString = getConnString "secondary" $SecondaryServer $SecondaryDBName $SecondaryUsername $SecondaryPassword
 $db =  [Zumero.ZumerifyLib.DB.ZDatabase]::Create(0, $pdb, $ConnString, $ZssManagerPath + "\DB\SqlServer")
 
 Function FilterTable($dbfile_name, $table_name)
 {
     "Adding filter to " + $table_name
 
+    $authSource = [Zumero.ZumerifyLib.AuthenticationSource]::AuthSourceFromScheme($pdb, $dbfile_name, '{"scheme_type":"table","table":"users"}')
+    $u = [Zumero.ZumerifyLib.DB.ZACL]::DB_WHO_ANY_AUTHENTICATED_USER
+
     $db.Open()
 
     $table = $db.GetHostTable($table_name)
-    $filter = $db.GetFilter($dbfile_name);
+
+    $filter = $null
+
+    $filters = $db.GetAllFilters($dbfile_name, $authSource)
+
+    foreach ($flt in $filters)
+    {
+      if (($flt.Users.Count -eq 1) -and ($flt.Users[0] -eq $u))
+      {
+        $filter = $flt;
+        break;
+      }
+    }
+
+    if ($filter -eq $null)
+    {
+      $filter = $db.GetFilter($dbfile_name, $authSource);
+    }
 
     $ft = $filter.Table($table);
 
@@ -158,7 +178,18 @@ Function FilterTable($dbfile_name, $table_name)
 
     $ft.SetWhereClause($whereClause);
 
-    $filter.AddUser([Zumero.ZumerifyLib.DB.ZACL]::DB_WHO_ANY_AUTHENTICATED_USER)
+    $hasUser = $false
+
+    if ($filter.Users -ne $null)
+    {
+      $hasUser = $filter.Users.Contains($u)
+    }
+
+    if (! $hasUser)
+    {
+      $filter.AddUser([Zumero.ZumerifyLib.DB.ZACL]::DB_WHO_ANY_AUTHENTICATED_USER)
+    }
+
     $filter.AddOrUpdateTable($ft);
 
     if ($Excludes)

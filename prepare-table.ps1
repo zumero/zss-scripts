@@ -46,6 +46,11 @@
    The SQL Server password used when connecting to the Secondary database.
 
    Defaults to the value of PrimaryPassword
+ 
+ .PARAMETER NoAuth
+   Skip the automatic addition of full permission to all authenticated users.
+
+   Defaults to False (add permissions by default)
 
  .INPUTS
    None
@@ -108,7 +113,8 @@ Param(
   [string] $SecondaryDBName = $PrimaryDBName,
   [string] $SecondaryServer = $PrimaryServer,
   [string] $SecondaryUsername = $PrimaryUsername,
-  [string] $SecondaryPassword = $PrimaryPassword
+  [string] $SecondaryPassword = $PrimaryPassword,
+  [bool] $NoAuth = $false
 )
 
 $ErrorActionPreference = "Stop"
@@ -128,7 +134,7 @@ $ZssManagerPath = [System.IO.Path]::GetFullPath("C:\Program Files (x86)\Zumero\Z
 [Reflection.Assembly]::LoadFrom($ZssManagerPath + "\ZssManagerLib.dll") | Out-Null
 
 $ConnString = getConnString "primary" $PrimaryServer $PrimaryDBName $PrimaryUsername $PrimaryPassword
-$pdb = [Zumero.ZumerifyLib.DB.ZPrimaryDatabase]::Create(0, $ConnString)
+$pdb = [Zumero.ZumerifyLib.DB.ZPrimaryDatabase]::Create(0, $ConnString, $ZssManagerPath + "\DB\SqlServer")
 
 $ConnString = getConnString "secondary" $SecondaryServer $SecondaryDBName $SecondaryUsername $SecondaryPassword
 $db =  [Zumero.ZumerifyLib.DB.ZDatabase]::Create(0, $pdb, $ConnString, $ZssManagerPath + "\DB\SqlServer")
@@ -187,4 +193,8 @@ Function Grant-Permissions($dbfile_name)
 }
 
 Prepare-Table $DBFile $TableName
-Grant-Permissions($DBFile)
+
+if (! $NoAuth)
+{
+    Grant-Permissions($DBFile)
+}
