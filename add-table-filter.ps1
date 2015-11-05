@@ -99,7 +99,8 @@
 
   [Parameter(Mandatory=$True,Position=2)]
   [string] $TableName,
-
+  [Parameter(Mandatory=$True)]
+  [string] $WhereClause,
   [string] $Excludes,
 
   [Parameter(Mandatory=$True)]
@@ -115,8 +116,6 @@
   [string] $SecondaryPassword = $PrimaryPassword
 )
 
-
-$whereClause = "'{{{ZUMERO_USER_NAME}}}' = name"
 
 $ErrorActionPreference = "Stop"
 
@@ -176,7 +175,7 @@ Function FilterTable($dbfile_name, $table_name)
       $ft = $db.GetFilteredTable($table);
     }
 
-    $ft.SetWhereClause($whereClause);
+    $ft.SetWhereClause($WhereClause);
 
     $hasUser = $false
 
