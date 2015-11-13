@@ -223,7 +223,7 @@ Function FilterTable($dbfile_name, $table_name)
         {
           "Column [$col] does not exist in [$table_name], or is not excludable."
           ""
-          return
+          Exit 1
         }
       }
     }
