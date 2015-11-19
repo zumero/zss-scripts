@@ -99,7 +99,6 @@
 
   [Parameter(Mandatory=$True,Position=2)]
   [string] $TableName,
-  [Parameter(Mandatory=$True)]
   [string] $WhereClause,
   [string] $Excludes,
 
@@ -122,6 +121,12 @@ $ErrorActionPreference = "Stop"
 if ([Environment]::Is64BitProcess)
 {
     "This script must be run from a 32-bit Powershell environment."
+    Exit
+}
+
+if ([string]::IsNullOrEmpty($WhereClause) -Or [string]::IsNullOrEmpty($Excludes))
+{
+     "This script must provide at least a Where clause or Excludes text"
     Exit
 }
 
