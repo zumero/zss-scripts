@@ -124,7 +124,7 @@ if ([Environment]::Is64BitProcess)
     Exit
 }
 
-if ([string]::IsNullOrEmpty($WhereClause) -Or [string]::IsNullOrEmpty($Excludes))
+if ([string]::IsNullOrEmpty($WhereClause) -And [string]::IsNullOrEmpty($Excludes))
 {
      "This script must provide at least a Where clause or Excludes text"
     Exit
