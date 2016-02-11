@@ -216,8 +216,17 @@ Function FilterTable($dbfile_name, $table_name)
         {
           $colid = $matched[0]['column_id']
 
-          $ft.ExcludeColumn($colid, $defval)
           "  excluding [$col]"
+    
+          if ($defval -eq $null)
+          {
+            $ft.ExcludeColumn($colid)
+          }
+          else
+          {
+            "  default value: $defval"
+            $ft.ExcludeColumn($colid, $defval)
+          }
         }
         else
         {
