@@ -130,7 +130,16 @@ Function Create-DBFile($dbfile_name)
 
     if (!$pdb.DbFileExists($db, $dbfile_name))
     {
-        $pdb.SaveDBFile($dbfile_name, $db, "Driver={SQL Server Native Client 11.0};$ConnString")
+        $scheme = '{"scheme_type":"table","table":"users"}';
+
+        if ($pdb.SameDatabase($db))
+        {
+          $pdb.SaveDBFile($dbfile_name, $null, $null, $null, $scheme);
+        }
+        else
+        {
+          $pdb.SaveDBFile($dbfile_name, $db.DataSource, $db.Database, "Driver={SQL Server Native Client 11.0};$ConnString", $scheme);
+        }
 
         "Creating DBFile " + $dbfile_name
         $script = $db.GetCreateDbFileSqlScript($dbfile_name)
