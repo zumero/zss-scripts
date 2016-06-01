@@ -136,6 +136,10 @@ Function Create-DBFile($dbfile_name)
         {
           $pdb.SaveDBFile($dbfile_name, $null, $null, $null, $scheme);
         }
+        elseif (($SecondaryServer -eq $PrimaryServer) -and ($SecondaryUsername -eq $PrimaryUsername) -and ($SecondaryPassword -eq $PrimaryPassword))
+        {
+          $pdb.SaveDBFile($dbfile_name, $db.DataSource, $db.Database, "zssdb:$SecondaryDBName", $scheme);
+        }
         else
         {
           $pdb.SaveDBFile($dbfile_name, $db.DataSource, $db.Database, "Driver={SQL Server Native Client 11.0};$ConnString", $scheme);
