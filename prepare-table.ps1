@@ -182,13 +182,13 @@ Function Grant-Permissions($dbfile_name)
     $db.Open()
     $anyUser = [Zumero.ZumerifyLib.DB.ZACL]::UI_WHO_ANY_AUTHENTICATED_USER
     "Granting permissions for " + $anyUser
-    $userpermission = $db.GetUserPermissions($dbfile_name, $anyUser)
-    $userpermission.Table = $null
-    $userpermission.ExplicitPull = "Allow"
-    $userpermission.ExplicitAdd = "Allow"
-    $userpermission.ExplicitMod = "Allow"
-    $userpermission.ExplicitDel = "Allow"
-    $userpermission.CommitToDB($anyUser, "")
+    $gpermission = $db.GetGroupPermissions($dbfile_name, $anyUser)
+    $gpermission.Table = $null
+    $gpermission.ExplicitPull = "Allow"
+    $gpermission.ExplicitAdd = "Allow"
+    $gpermission.ExplicitMod = "Allow"
+    $gpermission.ExplicitDel = "Allow"
+    $gpermission.CommitToDB($anyUser, [Zumero.ZumerifyLib.DB.ZPermissions]::DEFAULT_UNCHANGED_PASS)
     $db.Close()
 }
 
