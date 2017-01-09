@@ -184,6 +184,7 @@
  . "$PSScriptRoot\z-common.ps1"
 
   $ZssManagerPath = [System.IO.Path]::GetFullPath("C:\Program Files (x86)\Zumero\ZSS Manager")
+  $env:Path += ";" + $ZssManagerPath + "/x86"
   [Reflection.Assembly]::LoadFrom($ZssManagerPath + "\ZssManagerLib.dll") | Out-Null
 
   $ConnString = getConnString "source primary" $SourcePrimaryServer $SourcePrimaryDBName $SourcePrimaryUsername $SourcePrimaryPassword
