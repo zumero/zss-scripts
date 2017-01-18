@@ -99,7 +99,7 @@
 
   [Parameter(Mandatory=$True,Position=2)]
   [string] $TableName,
-
+  [string] $WhereClause,
   [string] $Excludes,
 
   [Parameter(Mandatory=$True)]
@@ -116,13 +116,17 @@
 )
 
 
-$whereClause = "'{{{ZUMERO_USER_NAME}}}' = name"
-
 $ErrorActionPreference = "Stop"
 
 if ([Environment]::Is64BitProcess)
 {
     "This script must be run from a 32-bit Powershell environment."
+    Exit
+}
+
+if ([string]::IsNullOrEmpty($WhereClause) -And [string]::IsNullOrEmpty($Excludes))
+{
+     "This script must provide at least a Where clause or Excludes text"
     Exit
 }
 
@@ -177,7 +181,7 @@ Function FilterTable($dbfile_name, $table_name)
       $ft = $db.GetFilteredTable($table);
     }
 
-    $ft.SetWhereClause($whereClause);
+    $ft.SetWhereClause($WhereClause);
 
     $hasUser = $false
 
