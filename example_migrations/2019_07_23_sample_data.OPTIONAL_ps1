@@ -1,0 +1,8 @@
+#This file is here to show how to insert sample data. Rename the extension to ".ps1" 
+#to run this migration. Inserting sample data is especially useful to test future migrations
+#and their impact on data.
+
+function Perform-Upgrade($filename, $DBFile, $global:primaryDatabase, $global:secondaryDatabase, $DoZumero) {
+	$content = [IO.File]::ReadAllText($PSScriptRoot + "\" + $filename + ".sql")
+	ExecuteSql-Secondary($content);
+}
