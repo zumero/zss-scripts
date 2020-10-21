@@ -50,6 +50,7 @@ if ($myInvocation.Line) {
     }else{
         &"$env:WINDIR\syswow64\windowspowershell\v1.0\powershell.exe" -NonInteractive -NoProfile -file "$($myInvocation.InvocationName)" $args
     }
+exit $lastexitcode
 }
 ## END BITNESS BUSINESS
 
