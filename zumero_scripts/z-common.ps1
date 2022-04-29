@@ -68,7 +68,7 @@
    $PSScriptRoot = split-path -parent $MyInvocation.MyCommand.Definition
  } 
  
- Function Create-DBFile($pdb, $db, $dbfile_name, $PrimaryServer="", $PrimaryUsername="", $PrimaryPassword="", $SecondaryServer="", $SecondaryUsername="", $SecondaryPassword="")
+ Function Create-DBFile($pdb, $db, $dbfile_name, $PrimaryServer="", $PrimaryUsername="", $PrimaryPassword="", $SecondaryServer="", $SecondaryDBName="", $SecondaryUsername="", $SecondaryPassword="")
  {
      if (!$pdb.DbFileExists($db, $dbfile_name))
      {
